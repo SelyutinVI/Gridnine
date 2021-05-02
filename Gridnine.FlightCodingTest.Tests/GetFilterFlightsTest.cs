@@ -14,21 +14,7 @@ namespace Gridnine.FlightCodingTest.Tests
 
             FilteredFlight ff = new FilteredFlight(flightBuilder.GetFlights());
             var actual = ff.GetFilterFlights(new FilterAfterNow());
-            try { 
-                for(int i =0; i<expected.Count;i++)
-                {
-                    for (int j = 0; j < expected[i].Segments.Count; j++)
-                    {
-                        if (expected[i].Segments[j].ArrivalDate != actual[i].Segments[j].ArrivalDate && expected[i].Segments[j].DepartureDate != actual[i].Segments[j].DepartureDate)
-                            Assert.Fail();
-                    }
-                }
-            }
-            catch
-            {
-                Assert.Fail();
-            }
-            Assert.Pass();
+            FlightsEquals(expected, actual);
         }
 
         [Test]
@@ -40,22 +26,7 @@ namespace Gridnine.FlightCodingTest.Tests
 
             FilteredFlight ff = new FilteredFlight(flightBuilder.GetFlights());
             var actual = ff.GetFilterFlights(new FilterArrivalAfterDeparture());
-            try
-            {
-                for (int i = 0; i < expected.Count; i++)
-                {
-                    for (int j = 0; j < expected[i].Segments.Count; j++)
-                    {
-                        if (expected[i].Segments[j].ArrivalDate != actual[i].Segments[j].ArrivalDate && expected[i].Segments[j].DepartureDate != actual[i].Segments[j].DepartureDate)
-                            Assert.Fail();
-                    }
-                }
-            }
-            catch
-            {
-                Assert.Fail();
-            }
-            Assert.Pass();
+            FlightsEquals(expected, actual);
         }
         [Test]
         public void FilterGroundTimeTest()
@@ -67,6 +38,11 @@ namespace Gridnine.FlightCodingTest.Tests
 
             FilteredFlight ff = new FilteredFlight(flightBuilder.GetFlights());
             var actual = ff.GetFilterFlights(new FilterGroundTime());
+            FlightsEquals(expected,actual);
+        }
+
+        private void FlightsEquals(IList<Flight> expected, IList<Flight> actual)
+        {
             try
             {
                 for (int i = 0; i < expected.Count; i++)
